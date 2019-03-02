@@ -142,6 +142,10 @@ class Annotations {
 		return this.add("mark", cfiRange, data, cb);
 	}
 
+	popupMenu (cfiRange, data, cb, className, styles) {
+		return this.add("popup", cfiRange, data, cb, className, styles);
+	}
+
 	/**
 	 * iterate over annotations in the store
 	 */
@@ -255,6 +259,8 @@ class Annotation {
 			result = view.underline(cfiRange, data, cb, className, styles);
 		} else if (type === "mark") {
 			result = view.mark(cfiRange, data, cb);
+		} else if (type === "popup") {
+			result = view.popupMenu(cfiRange, data, cb, className, styles);
 		}
 
 		this.mark = result;
@@ -277,6 +283,8 @@ class Annotation {
 				result = view.ununderline(cfiRange);
 			} else if (type === "mark") {
 				result = view.unmark(cfiRange);
+			}	else if (type === "popup") {
+				result = view.unpopupMenu();
 			}
 		}
 

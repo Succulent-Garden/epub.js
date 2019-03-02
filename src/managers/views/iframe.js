@@ -4,6 +4,7 @@ import EpubCFI from "../../epubcfi";
 import Contents from "../../contents";
 import { EVENTS } from "../../utils/constants";
 import { Pane, Highlight, Underline } from "marks-pane";
+import { Popup } from "../helpers/popup";
 
 class IframeView {
 	constructor(section, options) {
@@ -45,6 +46,7 @@ class IframeView {
 		this.highlights = {};
 		this.underlines = {};
 		this.marks = {};
+		this.popupView = null;
 
 	}
 
@@ -757,6 +759,58 @@ class IframeView {
 			delete this.marks[cfiRange];
 		}
 	}
+
+	// >>>>>> popup start ------
+
+	popupMenu(cfiRange, data={}, cb, className = "epubjs-hl", styles = {}) {
+		if (!this.contents) {
+			return;
+		}
+		this.unpopupMenu()
+		const attributes = Object.assign({"fill": "yellow", "fill-opacity": "0.3", "mix-blend-mode": "multiply"}, styles);
+		let range = this.contents.range(cfiRange);
+
+		let emitter = () => {
+			this.emit(EVENTS.VIEWS.MARK_CLICKED, cfiRange, data);
+		};
+
+		data["epubcfi"] = cfiRange;
+
+		if (!this.pane) {
+			this.pane = new Pane(this.iframe, this.element);
+		}
+
+		let m = new Popup(range, className, data, attributes);
+		let h = this.pane.addMark(m);
+
+		this.popupView = { "mark": h, "element": h.element, "listeners": [emitter, cb] };
+
+		h.element.setAttribute("ref", className);
+		h.element.addEventListener("click", emitter);
+		h.element.addEventListener("touchstart", emitter);
+
+		if (cb) {
+			h.element.addEventListener("click", cb);
+			h.element.addEventListener("touchstart", cb);
+		}
+		return h;
+	}
+
+	unpopupMenu() {
+		if (!this.popupView) { return }
+		let item = this.popupView;
+
+		this.pane.removeMark(item.mark);
+		item.listeners.forEach((l) => {
+			if (l) {
+				item.element.removeEventListener("click", l);
+				item.element.removeEventListener("touchstart", l);
+			};
+		});
+		this.popupView = null
+	}
+	
+	// <<<<<< popup end ------
 
 	destroy() {
 

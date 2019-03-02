@@ -51,6 +51,18 @@
       margin-left: 0;
     }
 
+    .epubjs-hl {
+      fill: blue;
+      fill-opacity: 0.3;
+      mix-blend-mode: multiply;
+    }
+
+    .epubjs-hl-red {
+      fill: red;
+      fill-opacity: 0.3;
+      mix-blend-mode: multiply;
+    }
+
   </style>
 </head>
 <body>
@@ -115,11 +127,31 @@
 
     // Apply a class to selected text
     rendition.on("selected", function(cfiRange, contents) {
-      rendition.annotations.highlight(cfiRange, {}, (e) => {
-        console.log("highlight clicked", e.target);
-      });
+      const x = rendition.annotations.highlight(
+        cfiRange, 
+        {}, 
+        (e) => {
+          const range = new ePub.CFI(cfiRange)
+          const xx = rendition.manager.views.find({index: x.sectionIndex}).contents.range(range).getClientRects()
+          console.log('rects: ', xx)
+
+          // window.redition = rendition
+          // window.rect = xx
+
+          rendition.annotations.popupMenu(
+            cfiRange,
+            {},
+            (e) => {
+              console.log('popup: ', e)
+            },
+            'epubjs-hl'
+          )
+        },
+        'epubjs-hl-red',
+      );
       contents.window.getSelection().removeAllRanges();
 
+      
     });
 
     this.rendition.themes.default({
@@ -127,8 +159,8 @@
         'background': 'rgba(255,255,0, 0.3)'
       },
       '.epubjs-hl' : {
-        'fill': 'yellow', 'fill-opacity': '0.3', 'mix-blend-mode': 'multiply'
-      }
+        'fill': 'blue', 'fill-opacity': '0.3', 'mix-blend-mode': 'multiply'
+      },
     });
 
     // Illustration of how to get text from a saved cfiRange
