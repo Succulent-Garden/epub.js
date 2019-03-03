@@ -1,4 +1,5 @@
-import { Mark } from "marks-pane"
+import { Mark } from "./marks"
+import svg from './svg'
 
 
 export class Popup extends Mark {
@@ -57,10 +58,5 @@ export class Popup extends Mark {
   }
 }
 
-class svg {
-  static createElement(name) {
-    return document.createElementNS('http://www.w3.org/2000/svg', name);
-  }
-}
 
 export default Popup

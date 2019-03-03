@@ -3,8 +3,19 @@ import {extend, borders, uuid, isNumber, bounds, defer, createBlobUrl, revokeBlo
 import EpubCFI from "../../epubcfi";
 import Contents from "../../contents";
 import { EVENTS } from "../../utils/constants";
-import { Pane, Highlight, Underline } from "marks-pane";
-import { Popup } from "../helpers/popup";
+// import { 
+// 	Pane, 
+// 	// Highlight, 
+// 	Underline 
+// } from "marks-pane";
+// import { Popup } from "../helpers/popup";
+// import Highlight from "../helpers/highlight_with_button";
+import {
+	Pane,
+	Highlight,
+	Underline,
+	Popup
+} from '../../marks'
 
 class IframeView {
 	constructor(section, options) {

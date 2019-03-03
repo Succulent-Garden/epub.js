@@ -131,21 +131,22 @@
         cfiRange, 
         {}, 
         (e) => {
-          const range = new ePub.CFI(cfiRange)
-          const xx = rendition.manager.views.find({index: x.sectionIndex}).contents.range(range).getClientRects()
-          console.log('rects: ', xx)
+          console.log('e: ', e)
+          // const range = new ePub.CFI(cfiRange)
+          // const xx = rendition.manager.views.find({index: x.sectionIndex}).contents.range(range).getClientRects()
+          // console.log('rects: ', xx)
 
           // window.redition = rendition
           // window.rect = xx
 
-          rendition.annotations.popupMenu(
-            cfiRange,
-            {},
-            (e) => {
-              console.log('popup: ', e)
-            },
-            'epubjs-hl'
-          )
+          // rendition.annotations.popupMenu(
+          //   cfiRange,
+          //   {},
+          //   (e) => {
+          //     console.log('popup: ', e)
+          //   },
+          //   'epubjs-hl'
+          // )
         },
         'epubjs-hl-red',
       );
