@@ -49,6 +49,7 @@ export class HighlightWithButton extends Mark {
       el.setAttribute('y', r.top - offset.top + container.top)
       el.setAttribute('height', r.height)
       el.setAttribute('width', r.width)
+      el.setAttribute('userData', '方框')
       docFrag.appendChild(el)
 
       // 添加最后的圆圈，并且添加点击事件
@@ -58,6 +59,7 @@ export class HighlightWithButton extends Mark {
         circleMark.setAttribute('cy', r.top - offset.top + container.top + r.height)
         circleMark.setAttribute('r', r.height * 0.5)
         circleMark.setAttribute('fill-opacity', 1)
+        circleMark.setAttribute('userData', '圆圈')
         docFrag.appendChild(circleMark)
       }
     }

@@ -39,7 +39,8 @@ export function proxyMouse(target, tracked) {
           }
 
           // The event targets this mark, so dispatch a cloned event:
-          t.dispatchEvent(clone(e));
+          t.fillUserDataByPosition(target.getBoundingClientRect(), x, y)
+          t.dispatchEvent(clone(e, t.userData));
           // We only dispatch the cloned event to the first matching mark.
           break;
       }
@@ -72,7 +73,7 @@ export function proxyMouse(target, tracked) {
 * @param e {MouseEvent} A mouse event object to clone.
 * @returns {MouseEvent}
 */
-export function clone(e) {
+export function clone(e, userData) {
 
   const event = new MouseEvent(
     e.type,
@@ -97,10 +98,15 @@ export function clone(e) {
       path: e.path,
       target: e.target,
       which: e.which,
+      touches: e.touches,
       x: e.x,
       y: e.y
     }
   )
+
+  if (userData) {
+    event.userData = userData
+  }
 
   return event
 

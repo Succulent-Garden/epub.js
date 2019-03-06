@@ -54,6 +54,7 @@ export class Pane {
 export class Mark {
     constructor() {
         this.element = null;
+        this.userData = null;
     }
 
     bind(element, container) {
@@ -104,6 +105,31 @@ export class Mark {
         }
         return true;
       })
+    }
+
+    fillUserDataByPosition(containerRect, x, y) {
+        // 填充用户信息的位置
+        // offset
+        var offset = containerRect
+
+        function rectContains(r, x, y) {
+            var top = r.top - offset.top;
+            var left = r.left - offset.left;
+            var bottom = top + r.height;
+            var right = left + r.width;
+            return (top <= y && left <= x && bottom > y && right > x);
+        }
+
+        // Then continue to check each child rect
+        var rects = [];
+        var el = this.element.firstChild;
+        while (el) {
+            if (rectContains(el.getBoundingClientRect(), x, y)) {
+                this.userData = el.getAttribute('userData')
+                return;
+            }
+            el = el.nextSibling;
+        }
     }
 
 }
