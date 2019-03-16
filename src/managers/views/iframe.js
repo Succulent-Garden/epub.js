@@ -581,8 +581,8 @@ class IframeView {
 		const attributes = Object.assign({"fill": "yellow", "fill-opacity": "0.3", "mix-blend-mode": "multiply"}, styles);
 		let range = this.contents.range(cfiRange);
 
-		let emitter = () => {
-			this.emit(EVENTS.VIEWS.MARK_CLICKED, cfiRange, data);
+		let emitter = (e) => {
+			this.emit(EVENTS.VIEWS.MARK_CLICKED, cfiRange, data, e.userData);
 		};
 
 		data["epubcfi"] = cfiRange;

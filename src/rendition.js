@@ -861,7 +861,7 @@ class Rendition {
 			contents.on(e, (ev) => this.triggerViewEvent(ev, contents));
 		});
 
-		contents.on(EVENTS.CONTENTS.SELECTED, (e) => this.triggerSelectedEvent(e, contents));
+		contents.on(EVENTS.CONTENTS.SELECTED, (e, selectedText) => this.triggerSelectedEvent(e, contents, selectedText));
 	}
 
 	/**
@@ -878,7 +878,7 @@ class Rendition {
 	 * @private
 	 * @param  {EpubCFI} cfirange
 	 */
-	triggerSelectedEvent(cfirange, contents){
+	triggerSelectedEvent(cfirange, contents, selectedText){
 		/**
 		 * Emit that a text selection has occured
 		 * @event selected
@@ -886,7 +886,7 @@ class Rendition {
 		 * @param {Contents} contents
 		 * @memberof Rendition
 		 */
-		this.emit(EVENTS.RENDITION.SELECTED, cfirange, contents);
+		this.emit(EVENTS.RENDITION.SELECTED, cfirange, contents, selectedText);
 	}
 
 	/**

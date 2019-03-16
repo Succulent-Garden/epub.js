@@ -899,7 +899,7 @@ class Contents {
 			if(!range.collapsed) {
 				// cfirange = this.section.cfiFromRange(range);
 				cfirange = new EpubCFI(range, this.cfiBase).toString();
-				this.emit(EVENTS.CONTENTS.SELECTED, cfirange);
+				this.emit(EVENTS.CONTENTS.SELECTED, cfirange, selection.toString());
 				this.emit(EVENTS.CONTENTS.SELECTED_RANGE, range);
 			}
 		}
