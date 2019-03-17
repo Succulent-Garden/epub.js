@@ -122,13 +122,13 @@ export class Mark {
 
         // Then continue to check each child rect
         var rects = [];
-        var el = this.element.firstChild;
+        var el = this.element.lastChild;
         while (el) {
             if (rectContains(el.getBoundingClientRect(), x, y)) {
                 this.userData = el.getAttribute('userData')
                 return;
             }
-            el = el.nextSibling;
+            el = el.previousSibling;
         }
     }
 

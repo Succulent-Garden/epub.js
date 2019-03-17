@@ -773,12 +773,12 @@ class IframeView {
 
 	// >>>>>> popup start ------
 
-	popupMenu(cfiRange, data={}, cb, className = "epubjs-hl", styles = {}) {
+	popupMenu(cfiRange, data={}, cb, className = "", styles = {}) {
 		if (!this.contents) {
 			return;
 		}
 		this.unpopupMenu()
-		const attributes = Object.assign({"fill": "yellow", "fill-opacity": "0.3", "mix-blend-mode": "multiply"}, styles);
+		const attributes = Object.assign({}, styles);
 		let range = this.contents.range(cfiRange);
 
 		let emitter = () => {

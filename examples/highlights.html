@@ -117,14 +117,6 @@
 
     };
 
-    function getTextFromRange(cfiRange, annotation) {
-      let range = cfiRange
-      if (typeof(cfiRange) === 'string') {
-        range = new ePub.CFI(cfiRange)
-
-      }
-    }
-
     rendition.on("keyup", keyListener);
     document.addEventListener("keyup", keyListener, false);
 
@@ -168,20 +160,16 @@
           const xx = innerContents.range(range).getClientRects()
           console.log('rects: ', xx)
 
-          window.ddd = innerContents.range(range)
-
-          window.redition = rendition
-          window.viewContainer = viewContainer
-          window.rect = xx
-
           const popup = rendition.annotations.popupMenu(
             cfiRange,
-            {},
+            {
+              'texts': ['一二三四五六七八九十一二三四壹贰叁肆伍陆柒捌玖拾']
+            },
             (e) => {
               console.log('popup: ', e)
-              // rendition.annotations.remo
+              viewContainer.unpopupMenu()
+
             },
-            'epubjs-hl'
           )
 
         },
