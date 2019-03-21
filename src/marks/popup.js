@@ -36,6 +36,79 @@ export class Popup extends Mark {
       this.element.removeChild(this.element.firstChild);
     }
 
+    if (this.data.buttons) {
+      this._renderPopupMenu()
+    }
+    else {
+      this._renderPopup()
+    }
+  }
+
+  _renderPopupMenu() {
+    // 创建DOM
+    var docFrag = this.element.ownerDocument.createDocumentFragment();
+    var filtered = this.filteredRanges();
+    var offset = this.element.getBoundingClientRect();
+    var container = this.container.getBoundingClientRect();
+
+    // 定位到方块中间
+    const cr = 5
+    const r = filtered[0];
+    const cx = r.left - offset.left + container.left + r.width * 0.5
+    const cy = r.top - offset.top + container.top - 2
+    const padding = 16
+
+    // 画泡泡
+    const buttonWidth = 42
+    const height = 36
+    const backgroundContainer = svg.createElement('path')
+    const hW = ((buttonWidth + padding) * this.data.buttons.length + padding) * 0.5
+    const xOfst = this._calculatePopupOffset(cx, hW)
+
+    const pathD = `M${cx},${cy} ` +
+    `L${cx-cr},${cy-cr} ` +
+    `L${cx-hW+cr+xOfst},${cy-cr} ` + 
+    `S${cx-hW+xOfst},${cy-cr},${cx-hW+xOfst},${cy-cr*2} ` + 
+    `L${cx-hW+xOfst},${cy-height} ` +
+    `S${cx-hW+xOfst},${cy-height-cr},${cx-hW+cr+xOfst},${cy-height-cr} ` +
+    `L${cx+hW-cr+xOfst},${cy-height-cr} ` +
+    `S${cx+hW+xOfst},${cy-height-cr},${cx+hW+xOfst},${cy-height} ` +
+    `L${cx+hW+xOfst},${cy-cr*2} ` +
+    `S${cx+hW+xOfst},${cy-cr},${cx+hW-cr+xOfst},${cy-cr} ` +
+    `L${cx+cr},${cy-cr} ` +
+    `Z`
+
+    svg.setAttributes(backgroundContainer, {
+      'd': pathD,
+      'fill': 'black',
+      'font-size': 24,
+    })
+
+    // 首先添加背景
+    docFrag.appendChild(backgroundContainer)
+
+    // 添加按钮
+    const leftX = cx - hW
+    this.data.buttons.forEach((b, i) => {
+      const {icon, title} = b
+      const textElement = svg.createElement('text')
+      svg.setAttributes(textElement, {
+        'x': leftX + padding * (i + 1) + buttonWidth * i,
+        'y': cy - height * 0.5,
+        'font': '13pt sans-serif',
+        'fill': 'white',
+        'fill-opacity': 1,
+        'mix-blend-mode': 'normal',
+        'userData': title,
+      })
+      textElement.innerHTML = title
+      docFrag.appendChild(textElement)
+    })
+
+    this.element.appendChild(docFrag);
+  }
+
+  _renderPopup() {
     // 创建DOM
     var docFrag = this.element.ownerDocument.createDocumentFragment();
     var filtered = this.filteredRanges();
