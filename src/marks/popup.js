@@ -111,6 +111,7 @@ export class Popup extends Mark {
       iconTag.setAttribute('y', cy - height * 0.9)
       iconTag.setAttribute('width', imageWidth)
       iconTag.setAttribute('height', imageWidth)
+      iconTag.setAttribute('userData', title)
       docFrag.appendChild(iconTag)
       docFrag.appendChild(textElement)
     })
@@ -192,8 +193,6 @@ export class Popup extends Mark {
     }
 
     // textElement.innerHTML = this.data.texts.join('|')
-
-    console.log('getTexts: ', this.getTexts(textElement.innerHTML))
 
     docFrag.appendChild(backgroundContainer)
     docFrag.appendChild(textElement)
