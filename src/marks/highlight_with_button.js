@@ -54,13 +54,25 @@ export class HighlightWithButton extends Mark {
 
       // 添加最后的圆圈，并且添加点击事件
       if (i == len - 1) {
+        const cx = r.left - offset.left + container.left + r.width
+        const cy = r.top - offset.top + container.top + r.height
+
         const circleMark = svg.createElement('circle')
-        circleMark.setAttribute('cx', r.left - offset.left + container.left + r.width)
-        circleMark.setAttribute('cy', r.top - offset.top + container.top + r.height)
+        circleMark.setAttribute('cx', cx)
+        circleMark.setAttribute('cy', cy)
         circleMark.setAttribute('r', r.height * 0.5)
         circleMark.setAttribute('fill-opacity', 1)
         circleMark.setAttribute('userData', '圆圈')
         docFrag.appendChild(circleMark)
+
+        const icon = svg.createElement('image')
+        icon.setAttributeNS('http://www.w3.org/1999/xlink', 'href', this.data.icon)
+        icon.setAttribute('x', cx - r.height * 0.35)
+        icon.setAttribute('y', cy - r.height * 0.35)
+        icon.setAttribute('width', r.height * 0.8)
+        icon.setAttribute('height', r.height * 0.8)
+        icon.setAttribute('userData', '圆圈')
+        docFrag.appendChild(icon)
       }
     }
 

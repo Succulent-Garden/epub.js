@@ -59,7 +59,7 @@ export class Popup extends Mark {
     const padding = 16
 
     // 画泡泡
-    const buttonWidth = 42
+    const buttonWidth = 56
     const height = 36
     const backgroundContainer = svg.createElement('path')
     const hW = ((buttonWidth + padding) * this.data.buttons.length + padding) * 0.5
@@ -88,20 +88,30 @@ export class Popup extends Mark {
     docFrag.appendChild(backgroundContainer)
 
     // 添加按钮
+    const imageWidth = padding
     const leftX = cx - hW
     this.data.buttons.forEach((b, i) => {
       const {icon, title} = b
       const textElement = svg.createElement('text')
+      const x = leftX + (buttonWidth + padding) * i
       svg.setAttributes(textElement, {
-        'x': leftX + padding * (i + 1) + buttonWidth * i,
+        'x': x + padding * 1.2 + imageWidth,
         'y': cy - height * 0.5,
-        'font': '13pt sans-serif',
+        'font': '13 sans-serif',
         'fill': 'white',
         'fill-opacity': 1,
         'mix-blend-mode': 'normal',
         'userData': title,
       })
       textElement.innerHTML = title
+
+      const iconTag = svg.createElement('image')
+      iconTag.setAttributeNS('http://www.w3.org/1999/xlink', 'href', icon)
+      iconTag.setAttribute('x', x + padding)
+      iconTag.setAttribute('y', cy - height * 0.9)
+      iconTag.setAttribute('width', imageWidth)
+      iconTag.setAttribute('height', imageWidth)
+      docFrag.appendChild(iconTag)
       docFrag.appendChild(textElement)
     })
 
