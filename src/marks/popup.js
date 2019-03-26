@@ -127,7 +127,7 @@ export class Popup extends Mark {
     var container = this.container.getBoundingClientRect();
 
     // 准备文字
-    const texts = this.getTexts(this.data.texts.join('|'))
+    const texts = this.getTexts(this.data.text)
 
     // 定位到圆圈
     const textHeight = texts.length * 20
@@ -191,8 +191,6 @@ export class Popup extends Mark {
       tspan.innerHTML = texts[i]
       textElement.appendChild(tspan)
     }
-
-    // textElement.innerHTML = this.data.texts.join('|')
 
     docFrag.appendChild(backgroundContainer)
     docFrag.appendChild(textElement)
