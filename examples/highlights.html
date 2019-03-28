@@ -87,8 +87,13 @@
       ignoreClass: 'annotator-hl',
       flow: "scrolled",
       manager: "continuous",
-      preRenderHook: (doc) => console.log('hey! ', doc),
+      preRenderHook: (doc) => {
+        console.log('rewrite fontsize with hook')
+        ePub.utils.updateFontSize(doc, x_fontScale)
+      },
     }
+
+    window.x_fontScale = 2.0
 
     var rendition = book.renderTo(document.body, renderSettings);
 
@@ -199,7 +204,7 @@
             const popup = rendition.annotations.popupMenu(
               cfiRange,
               {
-                'texts': ['一二三四五六七八九十一二三四壹贰叁肆伍陆柒捌玖拾'],
+                // 'text': '一二三四五六七八九十一二三四壹贰叁肆伍陆柒捌玖拾',
               },
               (e) => {
                 console.log('popup: ', e)
@@ -265,10 +270,10 @@
 
     });
 
-    setTimeout(() => {
-      this.rendition.themes.fontSize('1.2x')
-      console.log('change invoked')
-    }, 1000)
+    // setTimeout(() => {
+    //   this.rendition.themes.fontSize(12, x_fontScale)
+    //   console.log('change invoked')
+    // }, 2000)
   </script>
 
 </body>

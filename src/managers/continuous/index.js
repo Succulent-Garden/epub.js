@@ -247,16 +247,16 @@ class ContinuousViewManager extends DefaultViewManager {
 		var visibleLength = horizontal ? Math.floor(bounds.width) : bounds.height;
 		var contentLength = horizontal ? this.container.scrollWidth : this.container.scrollHeight;
 		
-		console.log('[ContinuousViewManager] check -> offset: ', offset)
-		console.log('[ContinuousViewManager] check -> visibleLength: ', visibleLength)
-		console.log('[ContinuousViewManager] check -> contentLength: ', contentLength)
+		// console.log('[ContinuousViewManager] check -> offset: ', offset)
+		// console.log('[ContinuousViewManager] check -> visibleLength: ', visibleLength)
+		// console.log('[ContinuousViewManager] check -> contentLength: ', contentLength)
 
 		let prepend = () => {
 			let first = this.views.first();
 			let prev = first && first.section.prev();
 
 			if(prev) {
-				console.log('[ContinuousViewManager] check -> prepend: ', prev)
+				// console.log('[ContinuousViewManager] check -> prepend: ', prev)
 				newViews.push(this.prepend(prev));
 			}
 		};
@@ -266,14 +266,14 @@ class ContinuousViewManager extends DefaultViewManager {
 			let next = last && last.section.next();
 
 			if(next) {
-				console.log('[ContinuousViewManager] check -> append: ', next)
+				// console.log('[ContinuousViewManager] check -> append: ', next)
 				newViews.push(this.append(next));
 			}
 
 		};
 
 		if (offset + visibleLength + delta >= contentLength) {
-			console.log('[ContinuousViewManager] check -> scroll down: ', horizontal && rtl)
+			// console.log('[ContinuousViewManager] check -> scroll down: ', horizontal && rtl)
 			if (horizontal && rtl) {
 				prepend();
 			} else {
@@ -282,7 +282,7 @@ class ContinuousViewManager extends DefaultViewManager {
 		}
 
 		if (offset - delta < 0 ) {
-			console.log('[ContinuousViewManager] check -> scroll up: ', horizontal && rtl)
+			// console.log('[ContinuousViewManager] check -> scroll up: ', horizontal && rtl)
 			if (horizontal && rtl) {
 				append();
 			} else {

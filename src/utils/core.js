@@ -2,6 +2,7 @@
  * Core Utilities and Helpers
  * @module Core
 */
+export { updateFontSize } from "./fontsize";
 
 /**
  * Vendor prefixed requestAnimationFrame

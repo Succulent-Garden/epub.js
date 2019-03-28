@@ -127,7 +127,7 @@ export class Popup extends Mark {
     var container = this.container.getBoundingClientRect();
 
     // 准备文字
-    const texts = this.getTexts(this.data.text)
+    const texts = this.getTexts(this.data.text || '')
 
     // 定位到圆圈
     const textHeight = texts.length * 20

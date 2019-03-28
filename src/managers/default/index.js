@@ -37,11 +37,12 @@ class DefaultViewManager {
 			method: this.settings.method, // srcdoc, blobUrl, write
 			width: 0,
 			height: 0,
-			forceEvenPages: true
+			forceEvenPages: true,
 		};
 
 		this.rendered = false;
 
+		this._preRenderHook = this.settings.preRenderHook
 	}
 
 	render(element, size){
@@ -230,6 +231,7 @@ class DefaultViewManager {
 
 	createView(section) {
 		this.viewSettings.preRenderHook = this._preRenderHook
+		console.log('-> -> preRenderHook: ', this.viewSettings.preRenderHook)
 		return new this.View(section, this.viewSettings);
 	}
 
@@ -949,10 +951,6 @@ class DefaultViewManager {
 
 	isRendered() {
 		return this.rendered;
-	}
-
-	setViewPreRenderHook(hook) {
-		this._preRenderHook = hook
 	}
 
 }

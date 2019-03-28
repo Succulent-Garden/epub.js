@@ -143,8 +143,6 @@ class IframeView {
 	}
 
 	render(request, show) {
-		console.log('[iframe] render -> request: ', request)
-
 		// view.onLayout = this.layout.format.bind(this.layout);
 		this.create();
 
@@ -440,6 +438,10 @@ class IframeView {
 				}
 			}
 		});
+
+		if (this.settings.preRenderHook) {
+			this.settings.preRenderHook(this.document)
+		}
 
 		promise.resolve(this.contents);
 	}

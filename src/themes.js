@@ -1,4 +1,5 @@
 import Url from "./utils/url";
+import { updateFontSize } from "./utils/fontsize";
 
 /**
  * Themes to apply to displayed content
@@ -219,21 +220,23 @@ class Themes {
 	/**
 	 * Adjust the font size of a rendition
 	 * @param {number} size
+	 * @param {number} scale
 	 */
-	fontSize (size) {
+	fontSize (size, scale) {
 		this.override("font-size", size);
 
-		if (typeof(size) == 'string' && size.endsWith('x')) {
+		if (typeof(scale) == typeof(0)) {
 			this.rendition.getContents().forEach((content) => {
 				console.log('update content fontSize')
-				for (let i = 0; i < content.document.styleSheets.length; i++) {
-					let styleSheet = content.document.styleSheets[i]
-					for (let i = 0; i < styleSheet.rules.length; i++) { 
-						if (styleSheet.rules[i].style.fontSize.length != 0) {
-							styleSheet.rules[i].style.fontSize='24px'  
-						}
-					}
-				}
+				updateFontSize(content.document, scale)
+				// for (let i = 0; i < content.document.styleSheets.length; i++) {
+				// 	let styleSheet = content.document.styleSheets[i]
+				// 	for (let i = 0; i < styleSheet.rules.length; i++) { 
+				// 		if (styleSheet.rules[i].style.fontSize.length != 0) {
+				// 			styleSheet.rules[i].style.fontSize='24px'  
+				// 		}
+				// 	}
+				// }
 			})
 		}
 
