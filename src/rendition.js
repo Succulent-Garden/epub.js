@@ -815,6 +815,8 @@ class Rendition {
 			located.atStart = true;
 		}
 
+		console.log('[rendition] located: ', located)
+
 		return located;
 	}
 

@@ -222,6 +222,22 @@ class Themes {
 	 */
 	fontSize (size) {
 		this.override("font-size", size);
+
+		if (typeof(size) == 'string' && size.endsWith('x')) {
+			this.rendition.getContents().forEach((content) => {
+				console.log('update content fontSize')
+				for (let i = 0; i < content.document.styleSheets.length; i++) {
+					let styleSheet = content.document.styleSheets[i]
+					for (let i = 0; i < styleSheet.rules.length; i++) { 
+						if (styleSheet.rules[i].style.fontSize.length != 0) {
+							styleSheet.rules[i].style.fontSize='24px'  
+						}
+					}
+				}
+			})
+		}
+
+		console.log('change font size ')
 	}
 
 	/**

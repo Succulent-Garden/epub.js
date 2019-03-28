@@ -23,6 +23,7 @@ const TEXT_NODE = 3;
 	*/
 class Contents {
 	constructor(doc, content, cfiBase, sectionIndex) {
+		console.log('create')
 		// Blank Cfi for Parsing
 		this.epubcfi = new EpubCFI();
 

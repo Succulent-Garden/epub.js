@@ -229,6 +229,7 @@ class DefaultViewManager {
 	}
 
 	createView(section) {
+		this.viewSettings.preRenderHook = this._preRenderHook
 		return new this.View(section, this.viewSettings);
 	}
 
@@ -949,6 +950,11 @@ class DefaultViewManager {
 	isRendered() {
 		return this.rendered;
 	}
+
+	setViewPreRenderHook(hook) {
+		this._preRenderHook = hook
+	}
+
 }
 
 //-- Enable binding events to Manager

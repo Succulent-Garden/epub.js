@@ -59,6 +59,7 @@ class IframeView {
 		this.marks = {};
 		this.popupView = null;
 
+		console.log('preRenderHook: ', options.preRenderHook)
 	}
 
 	container(axis) {
@@ -142,6 +143,7 @@ class IframeView {
 	}
 
 	render(request, show) {
+		console.log('[iframe] render -> request: ', request)
 
 		// view.onLayout = this.layout.format.bind(this.layout);
 		this.create();

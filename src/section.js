@@ -91,6 +91,8 @@ class Section {
 
 		this.load(_request).
 			then(function(contents){
+				// console.log('[section] render.load.then -> type(contents): ', type(contents))
+				// console.log('[section] render.load.then -> contents: ', contents)
 				var userAgent = (typeof navigator !== 'undefined' && navigator.userAgent) || '';
 				var isIE = userAgent.indexOf('Trident') >= 0;
 				var Serializer;
