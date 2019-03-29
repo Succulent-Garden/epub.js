@@ -61,7 +61,7 @@ export function proxyMouse(target, tracked) {
   }
 
   for (var ev of ['mouseup', 'mousedown', 'click', 'touchstart']) {
-      this.target.addEventListener(ev, (e) => dispatch(e), false);
+    this.target.addEventListener(ev, (e) => dispatch(e), false);
   }
 
 }

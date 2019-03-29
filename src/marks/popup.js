@@ -91,7 +91,7 @@ export class Popup extends Mark {
     const imageWidth = padding
     const leftX = cx - hW
     this.data.buttons.forEach((b, i) => {
-      const {icon, title} = b
+      const {icon, title, param} = b
       const textElement = svg.createElement('text')
       const x = leftX + (buttonWidth + padding) * i
       svg.setAttributes(textElement, {
@@ -101,7 +101,7 @@ export class Popup extends Mark {
         'fill': 'white',
         'fill-opacity': 1,
         'mix-blend-mode': 'normal',
-        'userData': title,
+        'userData': `${title};${param || ''}`,
       })
       textElement.innerHTML = title
 
@@ -218,6 +218,7 @@ export class Popup extends Mark {
     let i = 0
     while (i < text.length) {
       const s = text.substring(startIndex, i)
+      // TODO: hard code text size
       if (svg.getTextWidth(s, '13pt sans-serif') > 245) {
         texts.push(text.substring(startIndex, i - 1))
         startIndex = i - 1
