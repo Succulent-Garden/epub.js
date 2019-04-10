@@ -91,6 +91,10 @@
         console.log('rewrite fontsize with hook')
         ePub.utils.updateFontSize(doc, x_fontScale)
       },
+      onScrollHook: () => {
+        console.log('onScrollHook: ', rendition)
+        removePopupWhileScroll()
+      },
     }
 
     window.x_fontScale = 2.0
@@ -98,6 +102,20 @@
     var rendition = book.renderTo(document.body, renderSettings);
 
     var displayed = rendition.display(1);
+
+    function removePopupWhileScroll() {
+      console.log('haha')
+      const values = Object.values(rendition.annotations._annotations)
+      const popups = values.filter(x => x.type = 'popup')
+      console.log('popups: ', popups)
+      if (popups.length == 0) {
+        return;
+      }
+      popups.forEach(element => {
+        console.log('remove: ', element)
+        rendition.annotations.remove(element.cfiRange, element.type)
+      });
+    }
 
     // Navigation loaded
     book.loaded.navigation.then(function(toc){

@@ -485,6 +485,11 @@ class ContinuousViewManager extends DefaultViewManager {
 			left: this.scrollLeft
 		});
 
+		if (this.settings.onScrollHook) {
+			// on scroll
+			this.settings.onScrollHook()
+		}
+
 		clearTimeout(this.afterScrolled);
 		this.afterScrolled = setTimeout(function () {
 
