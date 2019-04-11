@@ -1,5 +1,9 @@
 import {defer, isXml, parse} from "./core";
 import Path from "./path";
+import CryptoJS from "crypto-js";
+// import fs from "fs"
+// const fs = require('fs')
+// const fs = require('fs');
 
 function request(url, type, withCredentials, headers) {
 	var supportsURL = (typeof window != "undefined") ? window.URL : false; // TODO: fallback for url if window isn't defined
@@ -43,7 +47,6 @@ function request(url, type, withCredentials, headers) {
 	if(!type) {
 		type = new Path(url).extension;
 	}
-
 	if(type == "blob"){
 		xhr.responseType = BLOB_RESPONSE;
 	}
@@ -101,7 +104,20 @@ function request(url, type, withCredentials, headers) {
 					});
 					return deferred.promise;
 				}
-				if(responseXML){
+				if (type == "xhtml") {
+					if (this.response.includes("<html")) {
+						r = parse(this.response, "application/xhtml+xml");
+					}
+					else {
+						let response = this.response.replace(/[\r\n]/g, "")
+						// console.log(resource)
+						var bytes = CryptoJS.AES.decrypt(response, "12345");
+						var doc = bytes.toString(CryptoJS.enc.Utf8);
+						r = parse(doc, "application/xhtml+xml");
+					}
+					// r = this.responseXML;
+				}
+				else if(responseXML){
 					r = this.responseXML;
 				} else
 				if(isXml(type)){
