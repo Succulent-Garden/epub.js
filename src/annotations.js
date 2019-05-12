@@ -32,7 +32,7 @@ class Annotations {
 	 * @returns {Annotation} annotation
 	 */
 	add (type, cfiRange, data, cb, className, styles) {
-		let hash = encodeURI(cfiRange);
+		let hash = this.generateHash(cfiRange, type);
 		let cfi = new EpubCFI(cfiRange);
 		let sectionIndex = cfi.spinePos;
 		let annotation = new Annotation({
@@ -70,7 +70,7 @@ class Annotations {
 	 * @param {string} type Type of annotation to add: "highlight", "underline", "mark"
 	 */
 	remove (cfiRange, type) {
-		let hash = encodeURI(cfiRange);
+		let hash = this.generateHash(cfiRange, type);
 
 		if (hash in this._annotations) {
 			let annotation = this._annotations[hash];
@@ -201,6 +201,10 @@ class Annotations {
 
 	}
 
+	generateHash(cfiRange, type) {
+		return encodeURI(`${cfiRange} ${type}`)
+	}
+
 }
 
 /**
@@ -284,6 +288,7 @@ class Annotation {
 			} else if (type === "mark") {
 				result = view.unmark(cfiRange);
 			}	else if (type === "popup") {
+				view.unmark(cfiRange);
 				result = view.unpopupMenu();
 			}
 		}

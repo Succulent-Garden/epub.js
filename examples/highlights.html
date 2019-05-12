@@ -106,7 +106,7 @@
     function removePopupWhileScroll() {
       console.log('haha')
       const values = Object.values(rendition.annotations._annotations)
-      const popups = values.filter(x => x.type = 'popup')
+      const popups = values.filter(x => x.type == 'popup')
       console.log('popups: ', popups)
       if (popups.length == 0) {
         return;
@@ -211,7 +211,11 @@
                 ]
               },
               (e) => {
-                console.log('popup: ', e)
+                console.log('popup action handler: ', e)
+                const oper = e.userData.split(';')[0]
+                const cfi = e.userData.split(';')[1]
+                rendition.annotations.remove(cfi, 'highlight')
+                viewContainer.unpopupMenu()
               },
             )
           }
