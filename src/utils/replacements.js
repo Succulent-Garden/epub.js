@@ -131,5 +131,33 @@ export function substitute(content, urls, replacements) {
 			content = content.replace(new RegExp(url, "g"), replacements[i]);
 		}
 	});
+
+	content = restoreImageSource(content, urls, replacements);
+	return content;
+}
+
+// 还原被处理的图片标签
+function restoreImageSource(content, urls, replacements) {
+	let imgPattern = /<img.* \/>/g;
+	let blobPattern = /"blob:.*"/;
+
+	if (content.indexOf('奥托循环') > 0) {
+		console.log('haha');
+	}
+
+	let images = content.match(imgPattern);
+	if (images != null) {
+		images.forEach((t) => {
+			let blobMatch = blobPattern.exec(t);
+			if (blobMatch != null) {
+				let blobString = blobMatch[0];
+				let blob = blobString.substring(1, blobString.length - 1);
+				let index = replacements.indexOf(blob)
+				let newString = t.substring(0, t.length - 3) + ` alt="${urls[index]}" />`
+				content = content.replace(t, newString);
+			}
+		});
+	}
+
 	return content;
 }
