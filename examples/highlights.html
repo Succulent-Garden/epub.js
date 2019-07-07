@@ -91,7 +91,7 @@
       preRenderHook: (doc) => {
         console.log('rewrite fontsize with hook');
         ePub.utils.updateFontSize(doc, x_fontScale);
-        doc.body.querySelectorAll.forEach((t) => {
+        doc.body.querySelectorAll('img').forEach((t) => {
           t.addEventListener('click', () => {
             console.log();
             if (document.dispatchEvent) {
