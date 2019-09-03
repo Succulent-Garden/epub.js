@@ -1,5 +1,6 @@
 import {defer, isXml, parse} from "./core";
 import Path from "./path";
+import {getSecretKey} from "./secretKey";
 import CryptoJS from "crypto-js";
 // import fs from "fs"
 // const fs = require('fs')
@@ -109,13 +110,21 @@ function request(url, type, withCredentials, headers) {
 						r = parse(this.response, "application/xhtml+xml");
 					}
 					else {
-						let response = this.response.replace(/[\r\n]/g, "")
-						// console.log(resource)
-						var bytes = CryptoJS.AES.decrypt(response, "12345");
-						var doc = bytes.toString(CryptoJS.enc.Utf8);
-						r = parse(doc, "application/xhtml+xml");
+						let secretKey = getSecretKey()
+						try {
+							let response = this.response.replace(/[\r\n]/g, "")
+							let ivString = response.substring(0, 16)
+							const key = CryptoJS.enc.Utf8.parse(secretKey);
+							const iv = CryptoJS.enc.Utf8.parse(ivString);
+							let cfg = { iv: iv, mode: CryptoJS.mode.CFB, padding: CryptoJS.pad.Pkcs7 }
+
+							var bytes = CryptoJS.AES.decrypt(response.substring(16), key, cfg);
+							var doc = bytes.toString(CryptoJS.enc.Utf8);
+							r = parse(doc, "application/xhtml+xml");
+						} catch (e) {
+							r = parse("加载失败，请重新加载！", "application/xhtml+xml");
+						} finally {}
 					}
-					// r = this.responseXML;
 				}
 				else if(responseXML){
 					r = this.responseXML;
@@ -129,7 +138,25 @@ function request(url, type, withCredentials, headers) {
 					r = parse(this.response, "application/xhtml+xml");
 				}else
 				if(type == "html" || type == "htm"){
-					r = parse(this.response, "text/html");
+					if (this.response.includes("<html")) {
+						r = parse(this.response, "text/html");
+					}
+					else {
+						let secretKey = getSecretKey()
+						try {
+							let response = this.response.replace(/[\r\n]/g, "")
+							let ivString = response.substring(0, 16)
+							const key = CryptoJS.enc.Utf8.parse(secretKey);
+							const iv = CryptoJS.enc.Utf8.parse(ivString);
+							let cfg = { iv: iv, mode: CryptoJS.mode.CFB, padding: CryptoJS.pad.Pkcs7 }
+
+							var bytes = CryptoJS.AES.decrypt(response.substring(16), key, cfg);
+							var doc = bytes.toString(CryptoJS.enc.Utf8);
+							r = parse(doc, "text/html");
+						} catch (e) {
+							r = parse("加载失败，请重新加载！", "text/html");
+						} finally {}
+					}
 				}else
 				if(type == "json"){
 					r = JSON.parse(this.response);

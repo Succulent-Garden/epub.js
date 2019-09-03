@@ -3,6 +3,7 @@ import {extend, defer} from "./utils/core";
 import Url from "./utils/url";
 import Path from "./utils/path";
 import Spine from "./spine";
+import {setSecretKey} from "./utils/secretKey";
 import Locations from "./locations";
 import Container from "./container";
 import Packaging from "./packaging";
@@ -68,6 +69,7 @@ class Book {
 			store: undefined
 		});
 
+		setSecretKey(options.secretKey);
 		extend(this.settings, options);
 
 
