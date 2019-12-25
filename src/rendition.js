@@ -748,7 +748,19 @@ class Rendition {
 			return located;
 		}
 	}
-
+  /**
+   * search in ebub
+   * @return {results | promise} results (may be a promise)
+   */
+  search(q) {
+    let book = this.book
+    return Promise.all(
+      book.spine.spineItems.map(item =>
+        item.load(book.load.bind(book)).then(item.find.bind(item, q)).finally(item.unload.bind(item)))
+    ).then(results => {
+      return Promise.resolve([].concat.apply([], results))
+    });
+  };
 	/**
 	 * Creates a Rendition#locationRange from location
 	 * passed by the Manager
